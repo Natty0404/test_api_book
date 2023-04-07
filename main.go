@@ -12,7 +12,7 @@ func main() {
 	engine := gin.Default()
 	// ミドルウェア
 	engine.Use(middleware.RecordUaAndTime)
-	// CRUD 書籍
+	// CRUD 書籍 /book/v1
 	bookEngine := engine.Group("/book")
 	{
 		v1 := bookEngine.Group("/v1")
@@ -23,7 +23,7 @@ func main() {
 			v1.DELETE("/delete", controller.BookDelete)
 		}
 	}
-	engine.Run(":3000")
+	engine.Run(":8080")
 }
 
 // エンドポイント/pingで"pong"を返すだけのAPIを作成
