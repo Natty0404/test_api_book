@@ -23,6 +23,18 @@ func (BookService) GetBookList() []model.Book {
 	return tests
 }
 
+func (b *BookService) GetBookByTitle(title string) (*model.Book, error) {
+	book := new(model.Book)
+	has, err := DbEngine.Where("title = ?", title).Get(book)
+	if err != nil {
+		return nil, err
+	}
+	if !has {
+		return nil, nil
+	}
+	return book, nil
+}
+
 func (BookService) UpdateBook(newBook *model.Book) error {
 	_, err := DbEngine.Id(newBook.Id).Update(newBook)
 	if err != nil {
