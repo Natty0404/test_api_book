@@ -1,7 +1,8 @@
-package service
+// 元はservice
+package repository
 
 import (
-	"test-app/model"
+	"../model"
 )
 
 type BookService struct{}

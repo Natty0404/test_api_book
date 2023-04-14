@@ -4,7 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"test-app/model"
+
+	"../model"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"

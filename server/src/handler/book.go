@@ -1,11 +1,14 @@
-package controller
+// 元はcontroller
+package handler
 
 import (
 	// "fmt"
 	"net/http"
 	"strconv"
-	"test-app/model"
-	"test-app/service"
+
+	"../domain/service"
+
+	"../model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,24 +21,25 @@ func BookAdd(c *gin.Context) {
 		return
 	}
 
-	bookService := service.BookService{}
+	// bookService := service.BookService{}
 
-	// // 同じタイトルの書籍が存在する場合は400エラーを返す
-	existingBook, err := bookService.GetBookByTitle(book.Title)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Server Error")
-		return
-	}
-	if existingBook != nil {
-		c.String(http.StatusBadRequest, "Book with the same title already exists")
-		return
-	}
+	// usecaseへ移動
+	// 同じタイトルの書籍が存在する場合は400エラーを返す
+	// existingBook, err := bookService.GetBookByTitle(book.Title)
+	// if err != nil {
+	// 	c.String(http.StatusInternalServerError, "Server Error")
+	// 	return
+	// }
+	// if existingBook != nil {
+	// 	c.String(http.StatusBadRequest, "Book with the same title already exists")
+	// 	return
+	// }
 
-	err = bookService.SetBook(&book)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Server Error")
-		return
-	}
+	// err = bookService.SetBook(&book)
+	// if err != nil {
+	// 	c.String(http.StatusInternalServerError, "Server Error")
+	// 	return
+	// }
 
 	// コンソールに出力
 	// fmt.Println("テスト")
