@@ -1,8 +1,12 @@
-package service
+package persistance
 
 import (
-	"test-app/model"
+	"test-app/domain/model"
+
+	"github.com/go-xorm/xorm"
 )
+
+var DbEngine *xorm.Engine
 
 type BookService struct{}
 
