@@ -1,23 +1,24 @@
 package usecase
 
 import (
-	"test-app/domain/model"
-	"test-app/infrastructure/persistance"
+	"test-app/domain/repository"
+
+	"github.com/go-xorm/xorm"
 )
 
+var DbEngine *xorm.Engine
+
+type BookService struct{}
+
 // 同じタイトルの書籍が存在する場合は400エラーを返す
-func (BookService) SetBook(book *model.Book) error {
-	bookService := persistance.BookService{}
-	existingBook, err := bookService.GetBookByTitle(book.Title)
+func (BookService) SetBook(title string) (*repository.Book, error) {
+	book := new(repository.Book)
+	has, err := DbEngine.Where("title = ?", title).Get(book)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	if existingBook != nil {
-		return err
+	if !has {
+		return nil, nil
 	}
-	err = bookService.SetBook(book)
-	if err != nil {
-		return err
-	}
-	return nil
+	return book, nil
 }
