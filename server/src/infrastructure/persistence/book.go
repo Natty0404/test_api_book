@@ -1,17 +1,25 @@
-package service
+package persistence
 
 import (
-	"test-app/model"
+	"test-app/domain/model"
+
+	"github.com/go-xorm/xorm"
 )
+
+var DbEngine *xorm.Engine
 
 type BookService struct{}
 
-func (BookService) SetBook(book *model.Book) error {
-	_, err := DbEngine.Insert(book)
+func (BookService) SetBook(title string) (*model.Book, error) {
+	book := new(model.Book)
+	books, err := DbEngine.Where("title = ?", title).Get(book)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	if !books {
+		return nil, nil
+	}
+	return book, nil
 }
 
 func (BookService) GetBookList() []model.Book {
