@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"fmt"
-	"test-app/domain/repository"
+	"log"
+	"test-app/infrastructure/persistence"
 
 	"github.com/go-xorm/xorm"
 )
@@ -11,15 +11,19 @@ var DbEngine *xorm.Engine
 
 type BookService struct{}
 
-// 同じタイトルの書籍が存在する場合は400エラーを返す
-func (BookService) SetBook(title string) (*repository.Book, error) {
-	book := new(repository.Book)
-	books, err := DbEngine.Where("title = ?", title).Get(book)
+func FetchBookByTitle() {
+	bookService := persistence.BookService{}
+
+	// DBから取得したい本のタイトルをセット
+	bookTitle := "Some Book Title"
+
+	book, err := bookService.SetBook(bookTitle)
+
 	if err != nil {
-		return nil, err
+		log.Println("Error while fetching book from DB")
+	} else if book == nil {
+		log.Println("No book found with the provided title")
+	} else {
+		log.Printf("Book found: %+v", book)
 	}
-	if !books {
-		return nil, fmt.Errorf("book with title '%s' not found", title)
-	}
-	return book, nil
 }
